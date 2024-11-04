@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.text.input.KeyboardType
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 
 class MainActivity : ComponentActivity() {
@@ -107,7 +108,9 @@ fun Birth(m: Modifier){
             Button(onClick = {
                 db.collection("users")
 //                    .whereEqualTo("userName", userName)
-                    .whereLessThan("userWeight", userWeight)
+//                    .whereLessThan("userWeight", userWeight)
+                    .orderBy("userWeight", Query.Direction.DESCENDING)
+                    .limit(2)
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -129,7 +132,6 @@ fun Birth(m: Modifier){
             }
         }
         Text(text = msg)
-
     }
 }
 data class Person(
